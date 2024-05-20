@@ -1,0 +1,75 @@
+pip install notebook
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+# Load the dataset
+df = pd.read_csv(r"Desktop\DISEASE.csv")
+df
+# Display the first few rows of the dataset
+df.head()
+df
+import pandas as pd
+
+# Create DataFrame from the provided dataset
+data = {
+    "Age": [35, 50, 45, 60, 55, 40, 65, 30, 50, 55],
+    "Gender": ["Male", "Female", "Male", "Female", "Male", "Female", "Male", "Female", "Male", "Female"],
+    "BMI": [28.0, 31.5, 25.0, 29.0, 27.5, 26.8, 32.1, 23.9, 29.5, 28.7],
+    "Glucose Level": [100, 150, 95, 120, 115, 105, 160, 90, 140, 125],
+    "Family History": ["Yes", "Yes", "No", "Yes", "Yes", "No", "Yes", "No", "Yes", "Yes"],
+    "Exercise Hours": [3, 2, 5, 1, 4, 3, 0, 4, 2, 1],
+    "Diabetes": ["No", "Yes", "No", "Yes", "Yes", "No", "Yes", "No", "Yes", "Yes"]
+}
+
+df = pd.DataFrame(data)
+
+# Convert categorical variables into numerical variables
+df['Gender'] = df['Gender'].map({'Male': 0, 'Female': 1})
+df['Family History'] = df['Family History'].map({'No': 0, 'Yes': 1})
+df['Diabetes'] = df['Diabetes'].map({'No': 0, 'Yes': 1})
+# Display the DataFrame
+print(df.head())
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+# Create DataFrame from the provided dataset
+data = {
+    "Age": [35, 50, 45, 60, 55, 40, 65, 30, 50, 55],
+    "Gender": ["Male", "Female", "Male", "Female", "Male", "Female", "Male", "Female", "Male", "Female"],
+    "BMI": [28.0, 31.5, 25.0, 29.0, 27.5, 26.8, 32.1, 23.9, 29.5, 28.7],
+    "Blood Pressure": ["120/80", "140/90", "110/70", "130/85", "125/82", "118/75", "145/95", "105/68", "135/88", "128/82"],
+    "Glucose Level": [100, 150, 95, 120, 115, 105, 160, 90, 140, 125],
+    "Family History": ["Yes", "Yes", "No", "Yes", "Yes", "No", "Yes", "No", "Yes", "Yes"],
+    "Exercise Hours": [3, 2, 5, 1, 4, 3, 0, 4, 2, 1],
+    "Diabetes": ["No", "Yes", "No", "Yes", "Yes", "No", "Yes", "No", "Yes", "Yes"]
+}
+print(df.head())
+df = pd.DataFrame(data)
+# Extract systolic and diastolic values from "Blood Pressure" feature
+df['Systolic'] = df['Blood Pressure'].apply(lambda x: int(x.split('/')[0]))
+df['Diastolic'] = df['Blood Pressure'].apply(lambda x: int(x.split('/')[1]))
+# Convert categorical variables into numerical variables
+df['Gender'] = df['Gender'].map({'Male': 0, 'Female': 1})
+df['Family History'] = df['Family History'].map({'No': 0, 'Yes': 1})
+df['Diabetes'] = df['Diabetes'].map({'No': 0, 'Yes': 1})
+# Drop the original "Blood Pressure" column
+df.drop('Blood Pressure', axis=1, inplace=True)
+# Separate features and target variable
+X = df.drop('Diabetes', axis=1)
+y = df['Diabetes']
+print(X)
+print(y)
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Initialize the Logistic Regression model
+clf = LogisticRegression()
+# Train the model
+clf.fit(X_train, y_train)
+# Make predictions on the test set
+y_pred = clf.predict(X_test)
+print(y_pred)
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
